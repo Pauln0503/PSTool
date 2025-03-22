@@ -57,7 +57,7 @@ def scan_port(port):
         debug = f"{Target_url}:{port}"
         print('scanning at:', debug)
         sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        sock.settimeout(3)
+        sock.settimeout(5)
         URL = sock.connect_ex((Target_url,port))
         sock.close()
         if URL == 0:
@@ -67,7 +67,7 @@ def scan_port(port):
         
 
 def main():
-    with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=600) as executor:
             executor.map(scan_port, range(1,65535))
 
     if open_ports:
@@ -77,4 +77,6 @@ def main():
     print("FInish Scanning!!!!")
 
 if __name__ == "__main__":
+      start_time = time.time()
       main()
+      print("Time", (time.time() - start_time), " seconds")
